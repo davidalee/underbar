@@ -171,11 +171,11 @@
   _.reduce = function(collection, iterator, accumulator) {
 
     // if no accumulator, call iterator(i, i+1)
-    var result = accumulator || collection[i];
     var i = 0;
+    var result = accumulator || collection[i];
 
     if (accumulator) {
-      i = 1;
+      i = -1;
     }
 
     while (i + 1 < collection.length) {
