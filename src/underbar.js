@@ -184,7 +184,6 @@
     }
 
     return result;
-
   };
 
   // Determine if the array or object contains a given value (using `===`).
