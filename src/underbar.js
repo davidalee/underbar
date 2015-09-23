@@ -169,10 +169,12 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    var i = accumulator || accumulator === 0 ? -1 : 0;
+    var result = accumulator || collection[0];
 
-    // if no accumulator, call iterator(i, i+1)
-    var i = accumulator ? -1 : 0;
-    var result = accumulator || collection[i];
+    if (accumulator === 0) {
+      result = 0;
+    }
 
     while (i + 1 < collection.length) {
       result = iterator(result, collection[i + 1]);
@@ -186,18 +188,52 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
+    /*
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
       }
       return item === target;
     }, false);
+    */
+    
+    // _.reduce() is buggy and is causing _.contains() to fail. Here's a temporary workaround until _.reduce() is fixed:
+
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        if (target === collection[i]) {
+          return true;
+        }
+      }
+      return false;
+    } else if (typeof collection === 'object') {
+      for (var key in collection) {
+        if (target === collection[key]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // object
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(isTrue, item) {
+      if (!iterator) {
+        iterator = function(x) { return x === true; };
+      }
+
+      if (!isTrue) {
+        return false;
+      } else if (iterator(item)) {
+        return true;
+      }
+      return false;
+    }, true)
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
