@@ -197,7 +197,8 @@
     }, false);
     */
     
-    // _.reduce() is buggy and is causing _.contains() to fail. Here's a temporary workaround until _.reduce() is fixed:
+    // _.reduce() is buggy and is causing _.contains() to fail. Here's a temporary workaround
+    // until _.reduce() is fixed:
 
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection.length; i++) {
@@ -214,8 +215,6 @@
       }
       return false;
     }
-
-    // object
   };
 
 
@@ -240,6 +239,43 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // First attempt, trying to implement every() - Still buggy
+    /*
+    if (collection.length === 0) {
+      return false;
+    }
+
+    if (!_.every(collection, iterator)) {
+      return false;
+    } else {
+      return true;
+    }
+    */
+
+    // the "manual" way
+
+    if (!iterator) {
+      iterator = function(x) {
+        return x;
+      };
+    }
+
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        if (iterator(collection[i])) {
+          return true;
+        }
+      }
+      return false;
+    } else if (typeof collection === 'object') {
+      for (var i in collection) {
+        if (iterator(collection[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
+
   };
 
 
