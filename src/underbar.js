@@ -239,7 +239,7 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    // First attempt, trying to implement every() - Still buggy
+    // First attempt at implementing some() using every() - Still buggy - "manual" solution in place for now
     /*
     if (collection.length === 0) {
       return false;
@@ -298,6 +298,17 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    if (arguments.length === 1) {
+      return "Passed in only one object";
+    } else if (arguments.length > 1) {
+      for (var arg in arguments) {
+        for (var key in arguments[arg]) {
+          obj[key] = arguments[arg][key];
+        }
+      }
+    }
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
