@@ -314,6 +314,19 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    if (arguments.length === 1) {
+      return "Passed in only one object";
+    } else if (arguments.length > 1) {
+      for (var arg in arguments) {
+        for (var key in arguments[arg]) {
+          if (obj[key] === undefined) {
+            obj[key] = arguments[arg][key];
+          }
+        }
+      }
+    }
+
+    return obj;
   };
 
 
